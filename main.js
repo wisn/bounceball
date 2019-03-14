@@ -59,6 +59,7 @@ ball.onmousedown = function(event) {
   ball.onmouseup = function() {
     document.removeEventListener('mousemove', onMouseMove);
     ball.onmouseup = null;
+    fallDown(ball);
   };
 };
 
@@ -108,4 +109,13 @@ inspector.append(inspectorTable);
 
 // Add the inspector to the application world
 app.append(inspector);
+
+// The main function, free fall motion
+function fallDown(ball) {
+  const app = document.getElementById('app');
+
+  const gravity = 9.8;
+
+  console.log('Falling...');
+}
 

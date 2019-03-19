@@ -112,10 +112,26 @@ app.append(inspector);
 
 // The main function, free fall motion
 function fallDown(ball) {
-  const app = document.getElementById('app');
-
   const gravity = 9.8;
+  const starting_height = getBallPosition().y;
+  const consumed_time = Math.sqrt((2 * starting_height) / gravity);
 
-  console.log('Falling...');
+  const ballPosition = document.getElementById('ball-position');
+
+  for (let i = 0; i <= consumed_time; i += 0.005) {
+    setTimeout(function() {
+      const time = i;
+      const calculated_height = starting_height - ((1 / 2) * gravity * (time * time));
+      const shifted_height = Math.abs(app.offsetHeight - Math.floor(calculated_height));
+
+      if (shifted_height <= (app.offsetHeight - (ball.offsetHeight / 2))) {
+        ball.style.top = shifted_height + 'px';
+      } else {
+        ball.style.top = app.offsetHeight - ball.offsetHeight + 'px';
+      }
+
+      ballPosition.innerHTML = '(' + getBallPosition().x + ', ' + getBallPosition().y + ')';
+    }, 10);
+  }
 }
 

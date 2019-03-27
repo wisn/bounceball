@@ -88,8 +88,31 @@ inspector.id = 'inspector';
 const inspectorTable = document.createElement('table');
 inspectorTable.style.border = '0';
 
-let inspectorRow, inspectorCol, inspectorVal;
+let inspectorRow, inspectorCol, inspectorVal, inspectorTmp;
 
+// Adding initial velocity
+inspectorRow = document.createElement('tr');
+inspectorCol = document.createElement('td');
+inspectorVal = document.createElement('span');
+inspectorVal.append(document.createTextNode('V'));
+inspectorTmp = document.createElement('sub');
+inspectorTmp.append(document.createTextNode('0'));
+inspectorVal.append(inspectorTmp);
+inspectorCol.append(inspectorVal);
+inspectorRow.append(inspectorCol);
+inspectorCol = document.createElement('td');
+inspectorCol.append(document.createTextNode(':'));
+inspectorRow.append(inspectorCol);
+inspectorCol = document.createElement('td');
+inspectorVal = document.createElement('span');
+inspectorVal.id = 'initial-velocity';
+inspectorVal.append(document.createTextNode('0'));
+inspectorCol.append(inspectorVal);
+inspectorRow.append(inspectorCol);
+
+inspectorTable.append(inspectorRow);
+
+// Adding ball position inspector
 inspectorRow = document.createElement('tr');
 inspectorCol = document.createElement('td');
 inspectorCol.append(document.createTextNode('Position'));
@@ -105,6 +128,8 @@ inspectorCol.append(inspectorVal);
 inspectorRow.append(inspectorCol);
 
 inspectorTable.append(inspectorRow);
+
+// Embedding inspectorTable on the inspector layer
 inspector.append(inspectorTable);
 
 // Add the inspector to the application world
@@ -118,13 +143,13 @@ function fallDown(ball) {
 
   const ballPosition = document.getElementById('ball-position');
 
-  for (let i = 0; i <= consumed_time; i += 0.005) {
+  for (let i = 0; i <= consumed_time; i += 0.002) {
     setTimeout(function() {
       const time = i;
       const calculated_height = starting_height - ((1 / 2) * gravity * (time * time));
-      const shifted_height = Math.abs(app.offsetHeight - Math.floor(calculated_height));
+      const shifted_height = Math.abs(app.offsetHeight - Math.floor(calculated_height)) - (ball.offsetHeight / 2);
 
-      if (shifted_height <= (app.offsetHeight - (ball.offsetHeight / 2))) {
+      if (shifted_height <= (app.offsetHeight - ball.offsetHeight)) {
         ball.style.top = shifted_height + 'px';
       } else {
         ball.style.top = app.offsetHeight - ball.offsetHeight + 'px';
